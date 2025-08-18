@@ -5,14 +5,14 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyABNuYZk7PagtW8Pwy_fZsI5DzbyguFBmQ",
-  authDomain: "solosphere-521ef.firebaseapp.com",
-  projectId: "solosphere-521ef",
-  storageBucket: "solosphere-521ef.firebasestorage.app",
-  messagingSenderId: "677851018080",
-  appId: "1:677851018080:web:3198076d9877460b04e405"
+  apiKey: "AIzaSyAEo9z6ISTIS4STBz26l0QfcFHkRY3K6Sc",
+  authDomain: "react-solosphere.firebaseapp.com",
+  projectId: "react-solosphere",
+  storageBucket: "react-solosphere.firebasestorage.app",
+  messagingSenderId: "1064866319773",
+  appId: "1:1064866319773:web:5d5c6c9564444c655db374"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-export default app
+export default app;
