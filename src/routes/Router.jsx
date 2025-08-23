@@ -6,6 +6,7 @@ import Main from "../layout/Main";
 import Home from "../pages/Home";
 import Login from "../pages/Authentication/Login";
 import Register from "../pages/Authentication/Register";
+import JobDetails from "../pages/JobDetails";
 
 const router = createBrowserRouter([
   {
@@ -14,7 +15,8 @@ const router = createBrowserRouter([
     children:[
       {
         index:true,
-        element:<Home></Home>
+        element:<Home></Home>,
+       
       },
       {
         path:"/login",
@@ -23,6 +25,11 @@ const router = createBrowserRouter([
       {
         path:"/registration",
         element:<Register></Register>
+      },
+      {
+        path:"/job/:id",
+        element:<JobDetails></JobDetails>,
+        loader:({params})=> fetch(`${import.meta.env.VITE_APP_URL}/job/${params.id}`)
       }
     ]
   },
