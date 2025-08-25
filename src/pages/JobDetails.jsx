@@ -7,7 +7,7 @@ import { useLoaderData } from "react-router-dom";
 import { AuthContext } from "./../provider/AuthProvider";
 import { DateParser } from './../../node_modules/date-fns/parse/_lib/parsers/DateParser';
 import  axios  from 'axios';
-
+import toast from 'react-hot-toast';
 const JobDetails = () => {
   const [startDate, setStartDate] = useState(new Date());
   const { user } = useContext(AuthContext);
@@ -20,14 +20,16 @@ const JobDetails = () => {
     description,
     min_price,
     max_price,
-    buyer_email,
+    buyer,
   } = job || {};
 
   const handelFormSubmit = async (e) => {
     e.preventDefault();
+    if(user?.email === buyer?.email) return toast.error("Action not permitted")
     const form = e.target;
     const jobId = _id;
     const price = parseFloat(form.price.value);
+    if(price < parseFloat(min_price)) return toast.error("Offer more or  at least equal to Minium Price")
     const comment = form.comment.value;
     const dateline = startDate;
     // const buyer_email = buyer_email;
@@ -40,15 +42,16 @@ const JobDetails = () => {
       price,
       status,
       comment,
-      buyer_email,
+      buyer_email: user?.email,
       dateline,
       email,
     };
     try {
       const {data}=await axios.post(`${import.meta.env.VITE_APP_URL}/jobs`,bidData)
       console.log(data)
-    } catch (err) {
-      console.log(err);
+
+    } catch(error) {
+      console.error(error.message);
     }
   };
   return (
@@ -57,7 +60,7 @@ const JobDetails = () => {
       <div className="flex-1  px-4 py-7 bg-white rounded-md shadow-md md:min-h-[350px]">
         <div className="flex items-center justify-between">
           <span className="text-sm font-light text-gray-800 ">
-            Deadline: {dateline}
+            Deadline: {new Date(dateline).toLocaleDateString()}
           </span>
           <span className="px-4 py-1 text-xs text-blue-800 uppercase bg-blue-200 rounded-full ">
             {category}
@@ -77,11 +80,11 @@ const JobDetails = () => {
             <div>
               <p className="mt-2 text-sm  text-gray-600 ">Name: Jhankar Vai.</p>
               <p className="mt-2 text-sm  text-gray-600 ">
-                Email: jhankar@mahbub.com
+                Email:{buyer?.email}
               </p>
             </div>
             <div className="rounded-full object-cover overflow-hidden w-14 h-14">
-              <img src="" alt="" />
+              <img src={buyer?.photo} alt="" />
             </div>
           </div>
           <p className="mt-6 text-lg font-bold text-gray-600 ">
